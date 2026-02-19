@@ -14,18 +14,24 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class Extension implements ExtensionInterface
+/**
+ * @psalm-suppress UnusedClass
+ */
+final class Extension implements ExtensionInterface
 {
     /**
      * @codeCoverageIgnore
      */
+    #[\Override]
     public function process(ContainerBuilder $container): void {}
 
+    #[\Override]
     public function getConfigKey(): string
     {
         return __NAMESPACE__;
     }
 
+    #[\Override]
     public function initialize(ExtensionManager $extensionManager): void
     {
         /** @var MinkExtension|null $minkExtension */
@@ -37,13 +43,9 @@ class Extension implements ExtensionInterface
     /**
      * @codeCoverageIgnore
      */
+    #[\Override]
     public function configure(ArrayNodeDefinition $builder): void
     {
-        /**
-         * @psalm-suppress PossiblyNullReference
-         * @psalm-suppress PossiblyUndefinedMethod
-         * @psalm-suppress MixedMethodCall
-         */
         $builder
             ->children()
                 ->scalarNode('container')->defaultValue('config/container.php')->end()
@@ -58,6 +60,7 @@ class Extension implements ExtensionInterface
      * @return void
      * @throws Exception
      */
+    #[\Override]
     public function load(ContainerBuilder $container, array $config): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
